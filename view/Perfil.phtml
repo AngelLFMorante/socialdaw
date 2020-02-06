@@ -1,0 +1,80 @@
+<?php
+use dawfony\Ti;
+global $URL_PATH;
+?>
+
+<?php echo Ti::extend("view/Mainview.phtml"); ?>
+<?php echo Ti::startBlock("content"); ?>
+
+<div>
+  <div class="row m-2">
+    <div class="col-2">
+      <img class="img-fluid rounded" src="https://avatars.dicebear.com/v2/bottts/<?= $datosUsuario->login ?>.svg" alt="avatar:<?= $datosUsuario->login ?>">
+    </div> 
+  <div class="col-9">
+    Usuario: <strong><?=$datosUsuario->login?></strong>
+    <br>
+    Nombre: <?=$datosUsuario->nombre?>
+    <br>
+    <div>
+            <p>
+                <i class="fa fa-users"></i>
+                Siguiendo <span class="badge badge-secondary"><?= $datosUsuario->siguiendo ?></span>
+                - Seguidores <span class="badge badge-secondary"><?= $datosUsuario->seguidores ?></span>
+            </p>
+            <?php if (isset($_SESSION["rol_id"])): ?>
+                <?php if ($datosUsuario->loSigues): ?>
+                    <a href="<?=$URL_PATH.'/perfil/'.$datosUsuario->login.'/noseguir'?>" class="btn btn-secondary btn-sm">
+                        Dejar de seguir a <?=$datosUsuario->login?>
+                    </a><br>
+                <?php  elseif ($_SESSION["login"] != $datosUsuario->login): ?>
+                    <a href="<?=$URL_PATH.'/perfil/'.$datosUsuario->login.'/seguir'?>" class="btn btn-primary btn-sm">
+                        Seguir a <?=$datosUsuario->login?>
+                    </a> 
+                <?php else: ?>
+                    <div class="alert alert-info">Este es tu perfil</div>
+                <?php endif; ?>
+            <?php else: ?>
+                <div class="alert alert-info">Inicia sesión para seguir a <?=$datosUsuario->login?></div>
+            <?php endif; ?>
+
+            <?php  if(isset($_SESSION["rol_id"]) && $_SESSION["rol_id"] == 0): ?>
+              <?php if($datosUsuario->login != "admin"):?>
+                <br>
+                    <div class="alert alert-warning">¿Borrar perfil? <a href="javascript:void(0)" onclick="borrarPerfil('<?= $datosUsuario->login ?>')" class="btn btn-danger btn-sm">Borrar</a></div>
+                    
+              <?php endif;?>
+                  <?php endif;?> 
+
+        </div>
+    
+  </div>
+</div>
+</div>
+<h4> Post del usuario <?=$datosUsuario->login?></h4>
+
+<table>
+<?php  foreach($posts as $sacarPost): ?>
+
+  <tr style="border-top:1px solid black;">
+
+         <td><img src="<?=$URL_PATH?>/assets/fotos/<?=$sacarPost->foto?>" width="147px" height="148px" vspace="5"></td>
+
+      <td><a style="color:green" href="<?= $URL_PATH ?>/leerMas/<?=$sacarPost->id?>"><?=strlen($sacarPost->resumen) > 150 ? substr($sacarPost->resumen,0,150) . "..." : $sacarPost->resumen; ?></a>
+
+       <td style="color:black" ><h5><b><?=$sacarPost->categoria_post_id?></b></h5></td>
+       <td><?=$sacarPost->fecha?></td>
+       </tr>
+
+    <?php endforeach; ?>
+    </table>
+    <br>
+  </div><!-- Falta poner los comentarios y todos los comentarios que tenga ese post -->
+</div>
+
+    
+
+
+
+<?php echo Ti::endBlock(); ?>
+<?php echo Ti::endExtend(); ?>

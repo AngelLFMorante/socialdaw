@@ -1,0 +1,38 @@
+<?php
+use dawfony\Ti;
+global $URL_PATH;
+?>
+
+<?php Ti::extend("view/MainView.phtml");?>
+
+<?php Ti::startBlock("content"); ?>
+<?php $error_msg = $error_msg ?? ""; $login = $login ?? "" ?>
+
+<?php if($error_msg): ?>
+    <div class= "alert alert-danger mt-3" role="alert">
+        <?=$error_msg?>
+    </div>
+<?php endif; ?>
+Entrar: 
+<div class="container" >
+<div style="border:1px solid black; border-radius: 15px">
+<div class="container">
+ <form class="mt-2" action="<?=$URL_PATH?>/login" method="POST">
+    <div class="form-group ">
+        <label for="login" class="col-md-2 col-form-label">Login:</label>
+            <input type="text"  id="login" value="<?=$login?>" name="login">
+        </div>
+    <div class="form-group ">
+        <label for="pass1" class="col-md-2 col-form-label">Contraseña: </label>
+            <input type="password"  id="pass1" value="" name="password">
+        </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary offset-md-2">Enviar</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+
+<?php Ti::endBlock(); ?>
+<?php Ti::endExtend(); ?>

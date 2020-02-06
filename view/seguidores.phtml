@@ -1,0 +1,61 @@
+<?php
+
+use dawfony\Ti;
+
+global $URL_PATH;
+?>
+
+<?php Ti::extend("view/MainView.phtml"); ?>
+<?php Ti::startBlock("content"); ?>
+
+<div>
+<table>
+<?php  foreach($posts as $sacarPost): ?>
+
+  <tr style="border-top:1px solid black;">
+
+         <td><img src="<?=$URL_PATH?>/assets/fotos/<?=$sacarPost->foto?>" width="147px" height="148px" vspace="5"></td>
+
+      <td><a href="<?= $URL_PATH ?>/leerMas/<?=$sacarPost->id?>"><?=strlen($sacarPost->resumen) > 150 ? substr($sacarPost->resumen,0,150) . "..." : $sacarPost->resumen; ?></a>
+
+     <div class="col-sm-3 ">
+            <h5>
+                Por <a style="color:red;" href="<?= $URL_PATH ?>/perfil/<?= $sacarPost->usuario_login ?>"><?= $sacarPost->usuario_login ?></a>
+                <img class="img-fluid rounded" src="https://avatars.dicebear.com/v2/bottts/<?= $sacarPost->usuario_login ?>.svg?options[width]=32&options[height]=32" alt="avatar: <?= $sacarPost->usuario_login ?>">
+            </h5>
+            <h5>en <?= $sacarPost->categoria ?></h5>
+            <h6>el <?= $sacarPost->fecha ?></h6>
+        </div>
+    
+      
+
+       </tr>
+
+    <?php endforeach; ?>
+    </table>
+    <br>
+</div>
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item <?=($pagina  <= 1 ? "disabled" : "")?>">
+      <a class="page-link" href="<?=$ruta .($pagina -1)?>" tabindex="-1" aria-disabled="true">Anterior</a>
+    </li>
+    <?php
+    for($i = 1; $i <= $numpaginas; $i++){
+      ?>
+
+    <li class="page-item " >
+        <a class="page-link" href="<?=$ruta?><?=$i?>"><?=$i?></a>
+    </li>
+
+      <?php
+    }
+    ?>
+    <li class="page-item <?=($pagina + 1 > $numpaginas ? "disabled" : "")?>">
+      <a class="page-link" href="<?=$ruta .($pagina + 1)?>" aria-disabled="true">Siguiente</a>
+    </li>
+  </ul>
+</nav>
+
+<?php Ti::endBlock(); ?>
+<?php Ti::endExtend(); ?>

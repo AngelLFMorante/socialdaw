@@ -1,0 +1,7 @@
+db_name=bdsocialdaw
+db_user=ususocialdaw
+db_pass=12345678
+db_host=localhost
+url_path=/socialdaw
+post_per_page=5
+

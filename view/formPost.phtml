@@ -1,0 +1,51 @@
+<?php
+
+use dawfony\Ti;
+global $URL_PATH;?>
+<?php Ti::extend("view/mainview.phtml");?>
+<?php Ti::startBlock("head"); ?>
+<!-- Include trumbowyg editor -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.20.0/ui/trumbowyg.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.20.0/trumbowyg.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.20.0/langs/es.js" integrity="sha256-EJXkD+I8Q24ePB4zheYqkfIKmlz2jYRUBLUzrwSdAt4=" crossorigin="anonymous"></script>
+<?php Ti::endBlock(); ?>
+
+<?php Ti::startBlock("content");?>
+<h1> Nuevo Post</h1>
+<?php /* El action es una ruta. Necesita el URL_PATH */ ?>
+<form class="mt-4" action="<?= $URL_PATH ?>/post/new" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <textarea class="form-control" placeholder="Resumen" rows="2" name="resumen" id="resumen" required autofocus></textarea>
+    </div>
+    <div class="form-group">
+        <textarea placeholder="Texto completo" class="form-control" rows="6" name="texto" id="texto"></textarea>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <label for="categoria">Selecciona categoría:</label>
+            <select id="categoria" name="categoria_id">
+                <?php foreach ($categorias as $categoria) : ?>
+                    <option value="<?= $categoria["id"] ?>"><?= $categoria["descripcion"] ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
+        <div class="col-sm-6">
+            <label for="filefoto">Sube una foto:</label>
+            <input type="file" class="form-control-file" id="filefoto" name="foto" pattern=".*\.(jpg|jpeg|gif|png|webp|svg)" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </div>
+</form>
+<script>
+    <?php /* trumbowyg es un editor de texto enriquecido. Lo activamos con jquery */ ?>
+    $('#texto').trumbowyg({
+        lang: 'es'
+    });
+</script>
+
+<?php
+Ti::endBlock();
+Ti::endExtend();
+?>
